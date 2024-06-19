@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="icon_remove">#FF0000</color>
+    <color name="root_background">#FF0000</color>
+    <color name="my_red">#FF0000</color>
 </resources>

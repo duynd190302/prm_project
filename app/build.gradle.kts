@@ -49,22 +49,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
-
-//    implementation ("com.google.code.gson:gson:2.6.1")
-//
-//    implementation ("com.squareup.retrofit2:retrofit:2.5.0")
-//
-//    implementation ("com.squareup.retrofit2:converter-gson:2.5.0")
-//
-////implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:2.1.0'
-//
-//// com.jakewharton.retrofit:retrofit2-rxjava2-adapter:2.2.0
-//
-//    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
-//
-//    // RxJava
-//
-//    implementation ("io.reactivex.rxjava2:rxjava:2.2.8")
-//
-//    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    //badge
+    implementation ("com.nex3z:notification-badge:1.0.4")
 }
