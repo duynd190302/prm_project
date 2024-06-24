@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DangnhapActivity extends AppCompatActivity {
-    TextView txtdangki;
+    TextView txtdangki,txtresetpass;
     EditText email, pass;
     AppCompatButton btndangnhap;
     ApiBanHang apiBanHang;
@@ -43,6 +43,13 @@ public class DangnhapActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DangkiActivity.class);
+                startActivity(intent);
+            }
+        });
+        txtresetpass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ResetPassActivity.class);
                 startActivity(intent);
             }
         });
@@ -80,6 +87,7 @@ public class DangnhapActivity extends AppCompatActivity {
     private void initView() {
         apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
         txtdangki = findViewById(R.id.txtdangki);
+        txtresetpass = findViewById(R.id.txtresetpass);
         email = findViewById(R.id.email);
         pass = findViewById(R.id.pass);
         btndangnhap = findViewById(R.id.btndangnhap);

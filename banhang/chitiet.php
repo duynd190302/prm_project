@@ -1,16 +1,6 @@
 <?php 
 include "connect.php";
 
-// if (!isset($_POST['page']) || !isset($_POST['loai'])) {
-//     $arr = [
-//         'success' => false,
-//         'message' => 'Thiếu thông tin trang hoặc loại sản phẩm',
-//         'result' => []
-//     ];
-//     print(json_encode($arr));
-//     exit; // Dừng thực thi nếu thiếu thông tin cần thiết
-// }
-
 $page = $_POST['page']; //ép kiểu số nguyên
 $total = 5; //cần lấy 5sp trên 1 trang
 $pos = ($page-1) * $total; // 0,5 5,5 
@@ -18,7 +8,7 @@ $loai = $_POST['loai']; //ép kiểu số nguyên
 
 
 
-$query = 'SELECT * FROM `sanphammoi` WHERE `loai` = '.$loai.' LIMIT '.$page.','.$total.' ';
+$query = 'SELECT * FROM `sanphammoi` WHERE `loai` = '.$loai.' LIMIT '.$pos.','.$total.' ';
 
 $data = mysqli_query($conn, $query);
 $result = array();
@@ -39,5 +29,5 @@ if(!empty($result)) {
         'result' => $result,
     ];
 }
-print(json_encode($arr));
+print_r(json_encode($arr));
 ?>

@@ -1,6 +1,10 @@
 <?php 
 include "connect.php";
-$query = "SELECT * FROM `sanphammoi` ORDER BY id DESC";
+
+$email = $_POST['email']; 
+$pass = $_POST['pass'];
+
+$query = 'SELECT * FROM `user` WHERE `email` = "'.$email.'" AND `pass` = "'.$pass.'"';
 $data = mysqli_query($conn, $query);
 $result = array();
 while ($row = mysqli_fetch_assoc($data)) {
@@ -20,7 +24,5 @@ if(!empty($result)) {
         'result' => $result,
     ];
 }
-
 print_r(json_encode($arr));
-
 ?>

@@ -21,6 +21,6 @@ if(!empty($result)) {
     ];
 }
 
-print(json_encode($arr));
+print_r(json_encode($arr));
 
 ?>
