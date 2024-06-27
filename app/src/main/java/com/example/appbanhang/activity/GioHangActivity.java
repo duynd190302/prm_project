@@ -1,5 +1,6 @@
 package com.example.appbanhang.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -33,6 +35,8 @@ public class GioHangActivity extends AppCompatActivity {
     Button btnmuahang;
     GioHangAdapter adapter;
 
+    long tongtiensp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,7 @@ public class GioHangActivity extends AppCompatActivity {
     }
 
     private void tinhTongTien() {
-        long tongtiensp = 0;
+        tongtiensp = 0;
         for(int i = 0; i<Utils.manggiohang.size(); i++){
             tongtiensp = tongtiensp+ (Utils.manggiohang.get(i).getGiasp()* Utils.manggiohang.get(i).getSoluong());
         }
@@ -66,14 +70,23 @@ public class GioHangActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        if(Utils.manggiohang.size() == 0){
+        if (Utils.manggiohang.size() == 0) {
             giohangtrong.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             adapter = new GioHangAdapter(getApplicationContext(), Utils.manggiohang);
             recyclerView.setAdapter(adapter);
         }
+        btnmuahang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ThanhToanActivity.class);
+                intent.putExtra("tongtien", tongtiensp);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void initView() {
         giohangtrong = findViewById(R.id.txtgiohangtrong);
