@@ -53,5 +53,6 @@ dependencies {
     implementation ("com.nex3z:notification-badge:1.0.4")
     //eventbus
     implementation("org.greenrobot:eventbus:3.3.1")
-
+    //Gson
+    implementation ("com.google.code.gson:gson:2.11.0")
 }
