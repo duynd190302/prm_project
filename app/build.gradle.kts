@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.appbanhang"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.appbanhang"
@@ -53,6 +53,9 @@ dependencies {
     implementation ("com.nex3z:notification-badge:1.0.4")
     //eventbus
     implementation("org.greenrobot:eventbus:3.3.1")
+    //paper
+    implementation ("io.github.pilgr:paperdb:2.7.2")
+
     //Gson
     implementation ("com.google.code.gson:gson:2.11.0")
 }
