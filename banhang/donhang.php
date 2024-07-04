@@ -1,12 +1,12 @@
 <?php 
 include "connect.php";
-
 $sdt = $_POST['sdt']; 
 $email = $_POST['email']; 
 $tongtien = $_POST['tongtien']; 
 $iduser = $_POST['iduser']; 
 $diachi = $_POST['diachi']; 
-$soluong = $_POST['soluong']; 
+$soluong = $_POST['soluong'];
+$chitiet = $_POST['chitiet']; 
 
 $query = 'INSERT INTO `donhang`( `iduser`, `diachi`, `sodienthoai`, `email`, `soluong`, `tongtien`) VALUES ('.$iduser.',"'.$diachi.'","'.$sdt.'","'.$email.'",'.$soluong.',"'.$tongtien.'") ';
 
@@ -16,7 +16,7 @@ if($data == true){
     $data = mysqli_query($conn, $query);
     
     while ($row = mysqli_fetch_assoc($data)){
-        $iddonhang = ($row);
+    $iddonhang = ($row);
     }
     if(!empty($iddonhang)){
         //co don hang
@@ -28,12 +28,12 @@ if($data == true){
         if($data == true){
             $arr = [
                 'success' => true,
-                'message' => 'thanh cong',
+                'message' => " thanh cong"
             ];
         }else{
                 $arr = [
                     'success' => false,
-                    'message' => 'khong thanh cong',
+                    'message' => " khong thanh cong"
                 ];
             }
             print_r(json_encode($arr));
@@ -41,7 +41,7 @@ if($data == true){
     }else{
         $arr = [
             'success' => false,
-            'message' => 'khong thanh cong',
+            'message' => " khong thanh cong"
         ];
         print_r(json_encode($arr));
 

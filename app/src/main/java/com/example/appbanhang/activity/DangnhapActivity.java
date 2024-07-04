@@ -1,7 +1,9 @@
 package com.example.appbanhang.activity;
 
 import android.content.Intent;
+import android.icu.util.LocaleData;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import com.example.appbanhang.retrofit.ApiBanHang;
 import com.example.appbanhang.retrofit.RetrofitClient;
 import com.example.appbanhang.utils.Utils;
 
+import io.paperdb.Paper;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -30,6 +33,8 @@ public class DangnhapActivity extends AppCompatActivity {
     AppCompatButton btndangnhap;
     ApiBanHang apiBanHang;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+    boolean isLogin = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,34 +68,61 @@ public class DangnhapActivity extends AppCompatActivity {
                 }else if (TextUtils.isEmpty(str_pass)) {
                     Toast.makeText(getApplicationContext(),"Bạn chưa nhập password", Toast.LENGTH_LONG).show();
                 }else {
-                    compositeDisposable.add(apiBanHang.dangNhap(str_email,str_pass)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                userModel -> {
-                                    if(userModel.isSuccess()){
-                                        Utils.user_current = userModel.getResult().get(0);
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                },throwable -> {
-                                        Toast.makeText(getApplicationContext(),throwable.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                            )
-                    );
+                    //save
+                    Paper.book().write("email", str_email);
+                    Paper.book().write("pass", str_pass);
+                    dangNhap(str_email, str_pass);
+
                 }
             }
         });
     }
 
     private void initView() {
+        Paper.init(this);
         apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiBanHang.class);
         txtdangki = findViewById(R.id.txtdangki);
         txtresetpass = findViewById(R.id.txtresetpass);
         email = findViewById(R.id.email);
         pass = findViewById(R.id.pass);
         btndangnhap = findViewById(R.id.btndangnhap);
+
+        //read data
+        if(Paper.book().read("email") != null && Paper.book().read("key") != null){
+            email.setText(Paper.book().read("email"));
+            pass.setText(Paper.book().read("pass"));
+            if(Paper.book().read("isLogin") != null){
+                boolean flag = Paper.book().read("isLogin");
+                if(flag){
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dangNhap(Paper.book().read("email"), Paper.book().read("pass"));
+                        }
+                    },1000);
+                }
+            }
+        }
+    }
+    private void dangNhap(String email, String pass) {
+        compositeDisposable.add(apiBanHang.dangNhap(email,pass)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        userModel -> {
+                            if(userModel.isSuccess()){
+                                isLogin = true;
+                                Paper.book().write("isLogin", isLogin);
+                                Utils.user_current = userModel.getResult().get(0);
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        },throwable -> {
+                            Toast.makeText(getApplicationContext(),throwable.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                )
+        );
     }
     @Override
     protected void onResume() {
